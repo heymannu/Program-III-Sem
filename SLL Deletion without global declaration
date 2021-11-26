@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+	int data;
+	struct node *link;
+};
+void create(struct node **head,struct node **temp){
+
+	int choice=1;
+	while(choice==1)
+	{
+	struct node *newnode= (struct node*)malloc(sizeof(struct node));
+	printf("Enter data :\n");
+	scanf("%d",&newnode->data);
+	newnode->link=0; 
+
+	if(*head==0)
+	{
+		(*temp)=(*head)=newnode;
+	}
+	else
+	{
+		(*temp)->link=newnode;
+		(*temp)=newnode;
+		}
+		printf("Do u wish to continue press 1 for yes 0 for no");
+		scanf("%d",&choice);
+	}
+}
+void display(struct node *head)
+{
+	struct node *temp;
+    temp=head;
+	printf("Linked list is:"); 
+	while(temp!=0)
+	{
+		printf("%d",temp->data);
+		temp=temp->link;
+		}
+
+	}
+void delete_at_Beg(struct node **head,struct node **temp)
+{
+   (*temp)=(*head);
+   (*head)=(*head)->link;
+   free(*temp);
+}
+	
+    void delete_at_End(struct node **head,struct node **temp)
+    {
+        struct node *temp1;
+        (*temp)=(*head);
+        if(head==0)
+        {
+            free(temp);
+        }
+        else{
+        while((*temp)->link!=0)
+        {
+            temp1=(*temp);
+            (*temp)=(*temp)->link;
+            
+        }
+        temp1->link=0;
+        free(*temp);
+        }
+    }
+int main(){
+    struct node *head=0;
+    struct node *temp=0;
+	create(&head,&temp);
+    delete_at_Beg(&head,&temp);
+    delete_at_End(&head,&temp);
+	display(head);
+    return 0;
+}

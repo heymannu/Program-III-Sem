@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+    int data;
+    struct node *link;
+    struct node *prev;
+};
+
+
+    void create(struct node **head,struct node **temp)
+    {
+        for(int i=0;i<5;i++)
+        {
+        struct node *newnode=(struct node*)malloc(sizeof(struct node));
+        printf("Enter data");
+        scanf("%d",&newnode->data);
+        newnode->link=0;
+        newnode->prev=0;
+
+        if(*head==0)
+        {
+            (*head)=(*temp)=newnode;
+        }
+
+        else
+        {
+            (*temp)->link=newnode;
+            newnode->prev=(*temp);
+            (*temp)=newnode;
+        }
+
+        }
+    }
+     void display(struct node *head)
+        {
+            struct node *temp;
+            temp=head;
+            printf("Data is ");
+            while(temp!=0)
+            {
+            printf("%d",temp->data);
+            temp=temp->link;
+            }
+        }
+        
+int main()
+{
+    struct node *temp=0;
+    struct node *head=0;
+    
+    create(&head,&temp); 
+    display(head);
+}

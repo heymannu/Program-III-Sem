@@ -64,6 +64,29 @@ struct node {
             temp=temp->link;
         }
     }
+    void insert_at_end(struct node **head,struct node **tail)
+    {
+        struct node *newnode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter the element you want to insert at the beginning:");
+        scanf("%d",&newnode->data);
+        newnode->link=0;
+        newnode->prev=0;
+        if((*head)==0)
+        {
+            (*head)=(*tail)=newnode;
+        }
+        else
+        {
+            while((*tail)->link!=0)
+            {
+                (*tail)=(*tail)->link;
+            }
+            (*tail)->link=newnode;
+            newnode->prev=(*tail);
+            (*tail)=newnode;
+
+        }
+    }
    
   
 
@@ -75,5 +98,6 @@ int main()
         struct node *newnode=0;
          create(&head,&temp,&newnode);
         insert_at_beginning(&head,&tail);
+        insert_at_end(&head,&tail);
         display(head);
     }

@@ -2,102 +2,148 @@
 #include<stdlib.h>
 
 struct node {
-    int data;
-    struct node *link;
-    struct node *prev;
-};
-   
-    void create( struct node **head, struct node **temp, struct node **newnode)
-    {   
-      
-       for(int i=0;i<5;i++)
-        {
-        (*newnode) = (struct node*)malloc(sizeof(struct node));
-        printf("Enter data :");
-        scanf("%d",&(*newnode)->data);
-        (*newnode)->link=0;
-        (*newnode)->prev=0;
-        
-            if((*head)==0)
-            {
-                (*head)=(*temp)=(*newnode);
-            }
-            else
-            {
-                (*temp)->link=(*newnode);
-                (*newnode)->prev=(*temp);
-                (*temp)=(*newnode);
-            }
+        int data;
+        struct node *link;
+        struct node *prev;
+        };
 
-    }  
+    void create (struct node **head)
+    {
+        struct node *tail;
+        int n , i;
+        printf("How many nodes would you like to make ?");
+            scanf("%d",&n);
+            for(i=0;i<n;i++)
+            {
+                struct node *newnode=(struct node*)malloc(sizeof(struct node));
+                    printf("Enter data :");
+                    scanf("%d",&newnode->data);
+                    newnode->link=0;
+                    newnode->prev=0;
+
+                    if((*head)==0)
+                    {
+                        (*head)=tail=newnode;
+                    }
+                    else
+                    {
+                        tail->link=newnode;
+                        newnode->prev=tail; 
+                        tail=newnode;
+                    }
+            }
     }
-     void insert_at_beginning(struct node **head,struct node **tail)
-    {   
+    void insert_at_beginning(struct node **head)
+    {
         
-      struct node *newnode = (struct node*)malloc(sizeof(struct node));
-        printf("Enter the element you want to insert at the beginning:");
-        scanf("%d",&newnode->data);
-        newnode->link=0;
-        newnode->prev=0;
-        if((*head)==0)
+        struct node *newnode=(struct node*)malloc(sizeof(struct node));
+                    printf("Enter data to be inserted at beginning:");
+                    scanf("%d",&newnode->data);
+                    newnode->link=0;
+                    newnode->prev=0;
+                    if((*head)==0)
+                    {
+                        (*head)=newnode;
+                    }
+                    else
+                    {
+                        newnode->link=(*head);
+                        (*head)->prev=newnode;
+                        (*head)=newnode;
+                    }
+
+    }
+    void insert_at_end(struct node **head)
+    {
+             struct node *newnode=(struct node*)malloc(sizeof(struct node));
+                 printf("Enter data to be inserted at end:");
+                 scanf("%d",&newnode->data);
+                    newnode->link=0;
+                    newnode->prev=0;
+                    if((*head)==0)
+                    {
+                        (*head)=newnode;
+                    }
+                    else
+                    {
+                        struct node *temp;
+                        temp=(*head);
+                        while(temp->link!=0)
+                        {
+                           temp=temp->link; 
+                        }
+                        temp->link=newnode;
+                        newnode->prev=temp;
+                        newnode->link=0;
+    }
+    }
+      void insert_at_position(struct node **head,int count)
+    {
+        struct node *temp;
+        int pos,i,a=1;
+        printf("Enter the position");
+        scanf("%d",&pos);
+        temp=(*head);
+        if(pos==0 || pos>count)
         {
-            (*head)=(*tail)=newnode;
+            printf("Invalid position");
+        }
+        else if(pos==1)
+        {
+            struct node *newnode=(struct node*)malloc(sizeof(struct node));
+                    printf("Enter data :");
+                    scanf("%d",&newnode->data);
+                    newnode->link=0;
+                    newnode->prev=0;
+
+                        newnode->link=(*head);
+                        (*head)->prev=newnode;
+                        (*head)=newnode;                  
         }
         else
         {
-            newnode->link=(*head);
-            (*head)->prev=newnode;
-            newnode->prev=0;
-            (*head)=newnode;
+                struct node *newnode=(struct node*)malloc(sizeof(struct node));
+                    printf("Enter data :");
+                    scanf("%d",&newnode->data);
+                    newnode->link=0;
+                    newnode->prev=0;
+            while(a<(pos-1))
+            {
+                temp=temp->link;
+                a++;
+            }
+            newnode->link=temp->link;
+            temp->link=newnode;
+            newnode->prev=temp;
+            newnode->link->prev=newnode;
         }
-        
-      
     }
-    void display(struct node *head)
+  
+
+    int display(struct node *head,int count)
     {
+      
         struct node *temp;
-       temp=head;
-        printf("Doubly linked list is:");
+        temp=head;
         while(temp!=0)
         {
             printf("%d",temp->data);
             temp=temp->link;
+            count++;
         }
+        printf("Count is %d",count);
+        return count;
     }
-    void insert_at_end(struct node **head,struct node **tail)
+
+    int main()
     {
-        struct node *newnode = (struct node*)malloc(sizeof(struct node));
-        printf("Enter the element you want to insert at the beginning:");
-        scanf("%d",&newnode->data);
-        newnode->link=0;
-        newnode->prev=0;
-        if((*head)==0)
-        {
-            (*head)=(*tail)=newnode;
-        }
-        else
-        {
-            while((*tail)->link!=0)
-            {
-                (*tail)=(*tail)->link;
-            }
-            (*tail)->link=newnode;
-            newnode->prev=(*tail);
-            (*tail)=newnode;
-
-        }
-    }
-   
-  
-
-int main()
-    {  
+        int count=0;
         struct node *head=0;
-        struct node *temp=0;
-        struct node *tail=0;
-        struct node *newnode=0;
-         create(&head,&temp,&newnode);
-        insert_at_beginning(&head,&tail);
-        insert_at_end(&head,&tail);
-        display(head);
+        create(&head);
+        insert_at_beginning(&head);
+        insert_at_end(&head);
+        count = display(head,count);
+        insert_at_position(&head,count);
+        count = display(head,count);
+       
     }

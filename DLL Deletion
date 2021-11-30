@@ -1,0 +1,108 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+        int data;
+        struct node *link;
+        struct node *prev;
+        };
+         void create( struct node **head, struct node **temp, struct node **newnode)
+    {   
+      
+       for(int i=0;i<5;i++)
+        {
+        (*newnode) = (struct node*)malloc(sizeof(struct node));
+        printf("Enter data :");
+        scanf("%d",&(*newnode)->data);
+        (*newnode)->link=0;
+        (*newnode)->prev=0;
+        
+            if((*head)==0)
+            {
+                (*head)=(*temp)=(*newnode);
+            }
+            else
+            {
+                (*temp)->link=(*newnode);
+                (*newnode)->prev=(*temp);
+                (*temp)=(*newnode);
+            }
+
+    }  
+    }
+
+void delete_from_beginning(struct node **head )
+{
+   struct node *temp;
+    temp=(*head);
+    (*head)=(*head)->link;
+    (*head)->prev=0;
+    free(temp);
+}
+  int display(struct node *head,int count)
+    {
+        struct node *temp;
+       temp=head;
+        printf("Doubly linked list is:");
+        while(temp!=0)
+        {
+            printf("%d",temp->data);
+            temp=temp->link;
+            count++;
+        }
+        return count;
+    }
+    void delete_from_end(struct node **head)
+    {
+        struct node *temp;
+        temp=(*head);
+        while(temp->link!=0)
+        {
+            temp=temp->link;
+        }
+        temp->prev->link=0;
+        temp->prev=0;
+        temp->link=0;
+        free(temp);
+    }
+
+    void delete_from_position(struct node **head,int count)
+    {
+        int i,pos,a=1;
+        printf("Enter position");
+        scanf("%d",&pos);
+
+        if(pos==0 || pos > count)
+        {
+            printf("Invalid position !\n");
+        }
+        else
+        {
+            struct node *temp;
+            temp=(*head);
+            while(a<pos)
+            {
+                temp=temp->link;
+                a++;
+            }
+            temp->prev->link=temp->link;
+            temp->link->prev=temp->prev;
+            temp->link=0;
+            temp->prev=0;
+            free(temp);
+        }
+    }
+   
+int main()
+{
+    int count=0;
+    struct node *head=0;
+    struct node *temp=0;
+    struct node *newnode=0;
+    create(&head,&temp,&newnode);
+    delete_from_beginning(&head);
+    delete_from_end(&head);
+    count=display(head,count);
+    delete_from_position(&head,count);
+    count=display(head,count);
+}

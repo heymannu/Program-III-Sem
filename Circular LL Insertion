@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+	int data;
+	struct node *link;
+	};
+	
+	void createCLL(struct node **tail)
+	{
+		printf("Enter data : ");
+		
+	   for(int i=0;i<6;i++)
+	   {
+		struct node *newnode = (struct node*)malloc(sizeof(struct node));
+		scanf("%d",&newnode->data);
+		newnode->link=0;
+		
+		if((*tail)==0)
+		{
+			(*tail)=newnode;
+			(*tail)->link=newnode;
+			
+		}
+			
+		else
+		{
+			newnode->link=(*tail)->link;
+			(*tail)->link=newnode;
+			(*tail)=newnode;
+		}
+		}
+	   }
+			
+	void insert_at_beginning(struct node **tail)
+	{
+		printf("Enter the data to be inserted at the beignning");
+		struct node *newnode= (struct node*)malloc(sizeof(struct node));
+		scanf("%d",&newnode->data);
+		if((*tail)==0)
+		{
+		  (*tail) = newnode;
+		  (*tail)->link = newnode;
+		}
+		else
+		{
+			newnode->link=(*tail)->link;
+			(*tail)->link=newnode;
+			}
+			printf("%d",(*tail)->link->data);
+	
+			}	
+			
+	void insert_at_end(struct node **tail)
+	{
+		printf("Enter the data to be inserted at the beignning");
+		struct node *newnode = (struct node*)malloc(sizeof(struct node));
+		scanf("%d",&newnode->data);
+		if((*tail)==0)
+		{
+		  (*tail) = newnode;
+		  (*tail)->link = newnode;
+		}
+		else
+		{
+			newnode->link=(*tail)->link;
+			(*tail)->link=newnode;
+			(*tail)=newnode;
+			}
+			printf("%d",(*tail)->data);
+			}
+			
+	int main()
+	{
+	   struct node *tail=0;
+		createCLL(&tail);
+		 insert_at_beginning(&tail);
+		 insert_at_end(&tail);
+		  return 0;
+		}
+	
+	
+		

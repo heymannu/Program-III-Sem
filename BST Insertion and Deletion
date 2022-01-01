@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+	int data;
+	struct node *left, *right;
+};
+
+struct node *create(struct node *root, int key)
+{
+	if (root == NULL)
+	{
+		struct node *newnode = (struct node *)malloc(sizeof(struct node));
+		newnode->data = key;
+		newnode->left = newnode->right = NULL;
+		root = newnode;
+		return root;
+	}
+	if (root->data > key)
+	{
+		root->left = create(root->left, key);
+	}
+	else
+	{
+		root->right = create(root->right, key);
+	}
+	return root;
+}
+
+void inorder(struct node *root)
+{
+	if (root == NULL)
+		return;
+	inorder(root->left);
+	printf("%d ", root->data);
+	inorder(root->right);
+}
+
+struct node *inorderSuccessor(struct node *root)
+{
+	while (root->left != NULL)
+	{
+		root = root->left;
+	}
+	return root;
+}
+struct node *deleteNode(struct node *root, int key)
+{
+	if (root == NULL)
+		return NULL;
+
+	if (key < root->data)
+		root->left = deleteNode(root->left, key);
+
+	else if (key > root->data)
+		root->right = deleteNode(root->right, key);
+
+	else
+	{
+		struct node *temp = NULL;
+		if (root->right == NULL)
+		{
+			temp = root->left;
+			free(root);
+			return temp;
+		}
+		else if (root->left == NULL)
+		{
+			temp = root->right;
+			free(root);
+			return temp;
+		}
+		else
+		{
+			temp = inorderSuccessor(root->right);
+			root->data = temp->data;
+			root->right = deleteNode(root->right, temp->data);
+		}
+	}
+	return root;
+}
+int main()
+{
+	struct node *root = NULL;
+	root = create(root, 8);
+	root = create(root, 7);
+	root = create(root, 5);
+	root = create(root, 18);
+	root = create(root, 2);
+	root = create(root, 50);
+	inorder(root);
+	root = deleteNode(root, 5);
+	printf("\n");
+	inorder(root);
+
+	return 0;
+}
